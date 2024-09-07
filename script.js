@@ -1,5 +1,5 @@
 // Initialize prices (in Rupiah)
-const prices = [10000, 5000]; // Dish 1: 10,000, Dish 2: 5,000 Rupiah
+const prices = [10000, 5000, 15000]; // Dish 1: 10,000, Dish 2: 5,000, Dish 3: 7,000
 
 // Dish 1 Elements
 let quantity1 = document.getElementById('quantity1');
@@ -8,6 +8,10 @@ let totalPrice1 = document.getElementById('totalPrice1');
 // Dish 2 Elements
 let quantity2 = document.getElementById('quantity2');
 let totalPrice2 = document.getElementById('totalPrice2');
+
+// Dish 3 Elements (New)
+let quantity3 = document.getElementById('quantity3');
+let totalPrice3 = document.getElementById('totalPrice3');
 
 // Grand Total
 let grandTotal = document.getElementById('grandTotal');
@@ -50,11 +54,25 @@ document.querySelectorAll('.menu-item')[1].querySelector('.decrease').addEventLi
     }
 });
 
+// Event listeners for Dish 3 (New)
+document.querySelectorAll('.menu-item')[2].querySelector('.increase').addEventListener('click', function() {
+    quantity3.textContent = parseInt(quantity3.textContent) + 1;
+    updateItemTotal(quantity3, totalPrice3, prices[2]); // Update Dish 3 total
+});
+
+document.querySelectorAll('.menu-item')[2].querySelector('.decrease').addEventListener('click', function() {
+    if (parseInt(quantity3.textContent) > 0) {
+        quantity3.textContent = parseInt(quantity3.textContent) - 1;
+        updateItemTotal(quantity3, totalPrice3, prices[2]); // Update Dish 3 total
+    }
+});
+
 // Grand Total Calculation
 function updateGrandTotal() {
     let total1 = parseInt(totalPrice1.textContent.replace(/\./g, '')) || 0;
     let total2 = parseInt(totalPrice2.textContent.replace(/\./g, '')) || 0;
-    grandTotal.textContent = formatToRupiah(total1 + total2);
+    let total3 = parseInt(totalPrice3.textContent.replace(/\./g, '')) || 0; // New dish total
+    grandTotal.textContent = formatToRupiah(total1 + total2 + total3); // Include Dish 3
 }
 
 // Update grand total whenever the individual total prices change
