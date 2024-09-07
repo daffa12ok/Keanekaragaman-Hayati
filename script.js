@@ -28,7 +28,7 @@ function formatToRupiah(amount) {
 
 // Update total price for a specific item
 function updateItemTotal(index) {
-    let quantity = parseInt(quantities[index].textContent);
+    let quantity = parseInt(quantities[index].textContent, 10);
     let total = quantity * prices[index];
     totalPrices[index].textContent = formatToRupiah(total);
 
@@ -40,7 +40,7 @@ function updateItemTotal(index) {
 function updateGrandTotal() {
     let total = 0;
     for (let i = 0; i < totalPrices.length; i++) {
-        total += parseInt(totalPrices[i].textContent.replace(/\./g, '')) || 0;
+        total += parseInt(totalPrices[i].textContent.replace(/\./g, ''), 10) || 0;
     }
     grandTotal.textContent = formatToRupiah(total);
 }
@@ -49,37 +49,18 @@ function updateGrandTotal() {
 document.querySelectorAll('.menu-item').forEach((menuItem, index) => {
     // Increase button
     menuItem.querySelector('.increase').addEventListener('click', function() {
-        quantities[index].textContent = parseInt(quantities[index].textContent) + 1;
+        quantities[index].textContent = parseInt(quantities[index].textContent, 10) + 1;
         updateItemTotal(index);
     });
 
     // Decrease button
     menuItem.querySelector('.decrease').addEventListener('click', function() {
-        if (parseInt(quantities[index].textContent) > 0) {
-            quantities[index].textContent = parseInt(quantities[index].textContent) - 1;
+        if (parseInt(quantities[index].textContent, 10) > 0) {
+            quantities[index].textContent = parseInt(quantities[index].textContent, 10) - 1;
             updateItemTotal(index);
         }
     });
 });
-
-// Order Button Event Listener
-document.getElementById('order-btn').addEventListener('click', function() {
-    // Get customer name and email
-    const customerName = document.getElementById('customerName').value;
-    const customerEmail = document.getElementById('customerEmail').value;
-
-    // Check if the name and email are entered
-    if (customerName === "" || customerEmail === "") {
-        alert("Please enter your name and email.");
-        return;
-    }
-
-    // Simulate sending order confirmation
-    alert(`Thank you, ${customerName}! Your order has been placed. A confirmation email will be sent to ${customerEmail}.`);
-    
-    // Here you could integrate real email sending services like EmailJS or a backend.
-});
-
 
 // Function to send data to Google Sheets
 function sendOrderToGoogleSheets(name, email, orders, total) {
@@ -96,7 +77,6 @@ function sendOrderToGoogleSheets(name, email, orders, total) {
     // Send the data via POST request
     fetch(url, {
         method: 'POST',
-        mode: 'no-cors',  // 'no-cors' to avoid CORS issues
         headers: {
             'Content-Type': 'application/json'
         },
@@ -123,8 +103,8 @@ document.getElementById('order-btn').addEventListener('click', function() {
     // Collect food order quantities
     let foodOrders = [];
     for (let i = 0; i < quantities.length; i++) {
-        if (parseInt(quantities[i].textContent) > 0) {
-            foodOrders.push(`${quantities[i].textContent} x Dish ${i+1}`);
+        if (parseInt(quantities[i].textContent, 10) > 0) {
+            foodOrders.push(`${quantities[i].textContent} x Dish ${i + 1}`);
         }
     }
 
@@ -140,31 +120,3 @@ document.getElementById('order-btn').addEventListener('click', function() {
     // Send data to Google Sheets
     sendOrderToGoogleSheets(customerName, customerEmail, foodOrderString, totalPrice);
 });
-
-const url = 'https://script.google.com/macros/s/AKfycbw9etFttwfMH_Zi6doDWLJDoebKOiBZdjUDod1gkUlBzUXkYzpaSU7KEDQkKlU1WtsdaA/exec';  // Replace with the URL from step 3.6
-
-function sendOrderToGoogleSheets(name, email, orders, total) {
-    const data = {
-        name: name,
-        email: email,
-        orders: orders,
-        total: total
-    };
-    
-    fetch(url, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        alert('Order has been sent successfully!');
-    })
-    .catch(error => {
-        console.error('Error sending data:', error);
-        alert('There was an error submitting your order.');
-    });
-}
-
