@@ -141,7 +141,7 @@ document.getElementById('order-btn').addEventListener('click', function() {
     sendOrderToGoogleSheets(customerName, customerEmail, foodOrderString, totalPrice);
 });
 
-const url = 'https://docs.google.com/spreadsheets/d/1IR9KVyXye_CdxU1D9furxaQ7SJNXlbskJ09N_JLyTTU/edit?gid=0#gid=0';  // Replace with the URL from step 3.6
+const url = 'https://script.google.com/macros/s/AKfycbw9etFttwfMH_Zi6doDWLJDoebKOiBZdjUDod1gkUlBzUXkYzpaSU7KEDQkKlU1WtsdaA/exec';  // Replace with the URL from step 3.6
 
 function sendOrderToGoogleSheets(name, email, orders, total) {
     const data = {
