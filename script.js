@@ -79,3 +79,65 @@ document.getElementById('order-btn').addEventListener('click', function() {
     
     // Here you could integrate real email sending services like EmailJS or a backend.
 });
+
+
+// Function to send data to Google Sheets
+function sendOrderToGoogleSheets(name, email, orders, total) {
+    const url = 'YOUR_GOOGLE_WEB_APP_URL';  // Replace with your Google Web App URL
+    
+    // Create data object
+    const data = {
+        name: name,
+        email: email,
+        orders: orders,
+        total: total
+    };
+    
+    // Send the data via POST request
+    fetch(url, {
+        method: 'POST',
+        mode: 'no-cors',  // 'no-cors' to avoid CORS issues
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        alert('Order has been sent successfully!');
+    })
+    .catch(error => {
+        console.error('Error sending data:', error);
+        alert('There was an error submitting your order.');
+    });
+}
+
+// Order Button Event Listener
+document.getElementById('order-btn').addEventListener('click', function() {
+    // Get customer name and email
+    const customerName = document.getElementById('customerName').value;
+    const customerEmail = document.getElementById('customerEmail').value;
+
+    // Get total order price
+    const totalPrice = document.getElementById('grandTotal').textContent;
+
+    // Collect food order quantities
+    let foodOrders = [];
+    for (let i = 0; i < quantities.length; i++) {
+        if (parseInt(quantities[i].textContent) > 0) {
+            foodOrders.push(`${quantities[i].textContent} x Dish ${i+1}`);
+        }
+    }
+
+    // Convert food orders array to a string
+    let foodOrderString = foodOrders.join(", ");
+
+    // Validate that the name and email are filled in
+    if (customerName === "" || customerEmail === "") {
+        alert("Please enter your name and email.");
+        return;
+    }
+
+    // Send data to Google Sheets
+    sendOrderToGoogleSheets(customerName, customerEmail, foodOrderString, totalPrice);
+});
+
