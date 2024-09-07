@@ -62,33 +62,27 @@ document.querySelectorAll('.menu-item').forEach((menuItem, index) => {
     });
 });
 
-// URL dari Google Apps Script
-const url = 'https://script.google.com/macros/s/AKfycbztgM8PDiE08f5QS_y1kL8Hi4jj02gvV17xDdX8MJs1Uk9yC23seyUC4XaC7dhZ-U__kA/exec';  // Ganti dengan URL yang benar
-
+// Function to send data to Google Sheets
 function sendOrderToGoogleSheets(name, email, orders, total) {
+    const url = 'https://script.google.com/macros/s/AKfycbzLoBFopVsXgzG2lnvEhJvgEXCgDb73T7QyXR5T95jT/dev';  // Replace with your Google Web App URL
+    
+    // Create data object
     const data = {
         name: name,
         email: email,
         orders: orders,
-        total: total.replace(/\./g, '') // Menghapus titik dari format Rupiah
+        total: total
     };
     
+    // Send the data via POST request
     fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
     })
     .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Error in network response');
-        }
-    })
-    .then(responseData => {
         alert('Order has been sent successfully!');
     })
     .catch(error => {
@@ -97,16 +91,16 @@ function sendOrderToGoogleSheets(name, email, orders, total) {
     });
 }
 
-// Event Listener untuk tombol order
+// Order Button Event Listener
 document.getElementById('order-btn').addEventListener('click', function() {
-    // Ambil data customer
+    // Get customer name and email
     const customerName = document.getElementById('customerName').value;
     const customerEmail = document.getElementById('customerEmail').value;
 
-    // Ambil total harga
+    // Get total order price
     const totalPrice = document.getElementById('grandTotal').textContent;
 
-    // Kumpulkan pesanan makanan
+    // Collect food order quantities
     let foodOrders = [];
     for (let i = 0; i < quantities.length; i++) {
         if (parseInt(quantities[i].textContent, 10) > 0) {
@@ -114,15 +108,15 @@ document.getElementById('order-btn').addEventListener('click', function() {
         }
     }
 
-    // Gabungkan food orders menjadi string
+    // Convert food orders array to a string
     let foodOrderString = foodOrders.join(", ");
 
-    // Validasi nama dan email
+    // Validate that the name and email are filled in
     if (customerName === "" || customerEmail === "") {
         alert("Please enter your name and email.");
         return;
     }
 
-    // Kirim data ke Google Sheets
+    // Send data to Google Sheets
     sendOrderToGoogleSheets(customerName, customerEmail, foodOrderString, totalPrice);
 });
