@@ -63,10 +63,9 @@ document.querySelectorAll('.menu-item').forEach((menuItem, index) => {
 });
 
 // Function to send data to Google Sheets
+const url = 'https://script.google.com/macros/s/AKfycbztgM8PDiE08f5QS_y1kL8Hi4jj02gvV17xDdX8MJs1Uk9yC23seyUC4XaC7dhZ-U__kA/exec';  // Replace with the URL from step 3.6
+
 function sendOrderToGoogleSheets(name, email, orders, total) {
-    const url = 'https://script.google.com/macros/s/AKfycbztgM8PDiE08f5QS_y1kL8Hi4jj02gvV17xDdX8MJs1Uk9yC23seyUC4XaC7dhZ-U__kA/exec';  // Replace with your Google Web App URL
-    
-    // Create data object
     const data = {
         name: name,
         email: email,
@@ -74,9 +73,9 @@ function sendOrderToGoogleSheets(name, email, orders, total) {
         total: total
     };
     
-    // Send the data via POST request
     fetch(url, {
         method: 'POST',
+        mode: 'no-cors',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -90,6 +89,7 @@ function sendOrderToGoogleSheets(name, email, orders, total) {
         alert('There was an error submitting your order.');
     });
 }
+
 
 // Order Button Event Listener
 document.getElementById('order-btn').addEventListener('click', function() {
