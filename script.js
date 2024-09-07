@@ -11,9 +11,6 @@ const prices = [10, 15];
 let quantity1 = document.getElementById('quantity1');
 let totalPrice1 = document.getElementById('totalPrice1');
 
-// Harga makanan
-const prices = [10, 15];
-
 // Mendapatkan elemen untuk makanan kedua (Dish 2)
 let quantity2 = document.getElementById('quantity2');
 let totalPrice2 = document.getElementById('totalPrice2');
