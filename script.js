@@ -1,5 +1,5 @@
 // Initialize prices (in Rupiah)
-const prices = [10000, 5000]; // 100,000 and 150,000 Rupiah
+const prices = [10000, 5000]; // 10.000 and 5.000 Rupiah
 
 // Dish 1 Elements
 let quantity1 = document.getElementById('quantity1');
