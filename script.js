@@ -1,5 +1,5 @@
 // Initialize prices
-const prices = [10.000, 5.000]; 
+const prices = [10000, 5000]; 
 
 // Dish 1 Elements
 let quantity1 = document.getElementById('quantity1');
