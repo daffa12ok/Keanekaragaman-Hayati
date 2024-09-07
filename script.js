@@ -61,3 +61,21 @@ document.querySelectorAll('.menu-item').forEach((menuItem, index) => {
         }
     });
 });
+
+// Order Button Event Listener
+document.getElementById('order-btn').addEventListener('click', function() {
+    // Get customer name and email
+    const customerName = document.getElementById('customerName').value;
+    const customerEmail = document.getElementById('customerEmail').value;
+
+    // Check if the name and email are entered
+    if (customerName === "" || customerEmail === "") {
+        alert("Please enter your name and email.");
+        return;
+    }
+
+    // Simulate sending order confirmation
+    alert(`Thank you, ${customerName}! Your order has been placed. A confirmation email will be sent to ${customerEmail}.`);
+    
+    // Here you could integrate real email sending services like EmailJS or a backend.
+});
