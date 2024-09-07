@@ -141,3 +141,30 @@ document.getElementById('order-btn').addEventListener('click', function() {
     sendOrderToGoogleSheets(customerName, customerEmail, foodOrderString, totalPrice);
 });
 
+const url = 'https://docs.google.com/spreadsheets/d/1IR9KVyXye_CdxU1D9furxaQ7SJNXlbskJ09N_JLyTTU/edit?gid=0#gid=0';  // Replace with the URL from step 3.6
+
+function sendOrderToGoogleSheets(name, email, orders, total) {
+    const data = {
+        name: name,
+        email: email,
+        orders: orders,
+        total: total
+    };
+    
+    fetch(url, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        alert('Order has been sent successfully!');
+    })
+    .catch(error => {
+        console.error('Error sending data:', error);
+        alert('There was an error submitting your order.');
+    });
+}
+
