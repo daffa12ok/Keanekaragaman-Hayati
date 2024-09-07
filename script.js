@@ -64,7 +64,7 @@ document.querySelectorAll('.menu-item').forEach((menuItem, index) => {
 
 // Function to send data to Google Sheets
 function sendOrderToGoogleSheets(name, email, orders, total) {
-    const url = 'YOUR_GOOGLE_WEB_APP_URL';  // Replace with your Google Web App URL
+    const url = 'https://script.google.com/macros/s/AKfycbz80BSrUwWEecu1cX3Mef9Zlcm6azQAfgN-dnfzebIb/dev';  // Replace with your Google Web App URL
     
     // Create data object
     const data = {
