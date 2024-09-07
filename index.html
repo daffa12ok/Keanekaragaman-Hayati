@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,49 +22,46 @@
 
     <section id="home">
         <h2>Selamat Datang di Rumah Makan Aziza</h2>
-        <p>Temukan makanan favoritmu disini .</p>
+        <p>Temukan makanan favoritmu disini.</p>
         <button class="cta-button">Silahkan Pesan</button>
     </section>
 
     <section id="menu">
         <h2>Our Menu</h2>
+        <!-- Dish 1 -->
         <div class="menu-item">
-            <img src="Buavita.jpg" alt="Food 1">
+            <img src="Buavita.jpg" alt="Dish 1">
             <h3>Dish 1</h3>
             <p>Description of Dish 1</p>
             <p>Price: $10</p>
-        <div class="order-control">
-            <button class="decrease">-</button>
-            <span class="quantity" id="quantity1">0</span>
-            <button class="increase">+</button>
+            <div class="order-control">
+                <button class="decrease">-</button>
+                <span class="quantity" id="quantity1">0</span>
+                <button class="increase">+</button>
+            </div>
+            <p>Total Price: $<span id="totalPrice1">0</span></p>
         </div>
-        <p>Total Price: $<span id="totalPrice1">0</span></p>
-    </div>
+        <!-- Dish 2 -->
         <div class="menu-item">
-            <img src="food2.jpg" alt="Food 2">
+            <img src="food2.jpg" alt="Dish 2">
             <h3>Dish 2</h3>
             <p>Description of Dish 2</p>
-            <p>Price: $10</p>
-        <div class="order-control">
-            <button class="decrease">-</button>
-            <span class="quantity" id="quantity1">0</span>
-            <button class="increase">+</button>
+            <p>Price: $15</p>
+            <div class="order-control">
+                <button class="decrease">-</button>
+                <span class="quantity" id="quantity2">0</span>
+                <button class="increase">+</button>
+            </div>
+            <p>Total Price: $<span id="totalPrice2">0</span></p>
         </div>
-        <p>Total Price: $<span id="totalPrice1">0</span></p>
-    </div>
-        <div class="menu-item">
-            <img src="food3.jpg" alt="Food 3">
-            <h3>Dish 2</h3>
-            <p>Description of Dish 2</p>
-        <p>Price: $10</p>
-        <div class="order-control">
-            <button class="decrease">-</button>
-            <span class="quantity" id="quantity1">0</span>
-            <button class="increase">+</button>
-        </div>
-        <p>Total Price: $<span id="totalPrice1">0</span></p>
-    </div>
-        </section>
+    </section>
+
+    <section id="order-summary">
+        <h2>Order Summary</h2>
+        <p>Total Price for All Items: $<span id="grandTotal">0</span></p>
+        <button id="order-btn">Order Now</button>
+    </section>
+
     <section id="about">
         <h2>About Us</h2>
         <p>We offer the best dishes made with the freshest ingredients.</p>
@@ -75,10 +71,7 @@
         <h2>Contact Us</h2>
         <p>Feel free to get in touch!</p>
     </section>
-    <section id="order-summary">
-        <h2>Order Summary</h2>
-        <p>Total Price for All Items: $<span id="grandTotal">0</span></p>
-    </section>
+
     <footer>
         <p>&copy; 2024 Delicious Eats</p>
     </footer>
