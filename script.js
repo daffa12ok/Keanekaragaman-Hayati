@@ -1,5 +1,5 @@
-// Initialize prices
-const prices = [10000, 5000]; 
+// Initialize prices (in Rupiah)
+const prices = [100000, 150000]; // 100,000 and 150,000 Rupiah
 
 // Dish 1 Elements
 let quantity1 = document.getElementById('quantity1');
@@ -12,18 +12,23 @@ let totalPrice2 = document.getElementById('totalPrice2');
 // Grand Total
 let grandTotal = document.getElementById('grandTotal');
 
+// Function to format number to Rupiah with commas
+function formatToRupiah(amount) {
+    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 // Update total price and grand total
 function updateTotalPrice(quantityElement, totalPriceElement, price) {
     let quantity = parseInt(quantityElement.textContent);
     let total = quantity * price;
-    totalPriceElement.textContent = total;
+    totalPriceElement.textContent = formatToRupiah(total);
     updateGrandTotal();
 }
 
 function updateGrandTotal() {
-    let total1 = parseInt(totalPrice1.textContent);
-    let total2 = parseInt(totalPrice2.textContent);
-    grandTotal.textContent = total1 + total2;
+    let total1 = parseInt(totalPrice1.textContent.replace(/\./g, '')) || 0;
+    let total2 = parseInt(totalPrice2.textContent.replace(/\./g, '')) || 0;
+    grandTotal.textContent = formatToRupiah(total1 + total2);
 }
 
 // Event listeners for Dish 1
@@ -54,6 +59,5 @@ document.querySelectorAll('.menu-item')[1].querySelector('.decrease').addEventLi
 
 // Order button event listener
 document.getElementById('order-btn').addEventListener('click', function() {
-    // This would integrate with Google Sheets using Apps Script
     alert("Order has been placed! Check your email for details.");
 });
