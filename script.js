@@ -64,7 +64,7 @@ document.querySelectorAll('.menu-item').forEach((menuItem, index) => {
 
 // Function to send data to Google Sheets
 function sendOrderToGoogleSheets(name, email, orders, total) {
-    const url = 'https://script.google.com/macros/s/AKfycby1fz_TEHv7RzZioi0h-zxxfqZF6eVSBs7wEIdcIs5mthe86iFBmPvEo8DKEh33Y9YAFg/exec';  // Replace with your Google Web App URL
+    const url = 'https://script.google.com/macros/s/AKfycbzlYNNXabNsus4GrGhp1CAsnDXiPdq7QxdggA8iaToB/dev';  // Replace with your Google Web App URL
     
     // Create data object
     const data = {
