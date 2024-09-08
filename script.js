@@ -64,7 +64,7 @@ document.querySelectorAll('.menu-item').forEach((menuItem, index) => {
 
 // Function to send data to Google Sheets
 function sendOrderToGoogleSheets(name, email, orders, total) {
-    const url = 'https://script.google.com/macros/s/AKfycbwMfpXfK3fwRD15-ssgwSWgluIG4TAP3Mtb2jemlN5LFKaQ92ipPtESmXK5B6g5zmx3ZA/exec';  // Replace with your Google Web App URL
+    const url = 'https://script.google.com/macros/s/AKfycby1fz_TEHv7RzZioi0h-zxxfqZF6eVSBs7wEIdcIs5mthe86iFBmPvEo8DKEh33Y9YAFg/exec';  // Replace with your Google Web App URL
     
     // Create data object
     const data = {
@@ -77,19 +77,21 @@ function sendOrderToGoogleSheets(name, email, orders, total) {
     // Send the data via POST request
     fetch(url, {
         method: 'POST',
+        mode: 'no-cors',  // 'no-cors' to avoid CORS issues
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
     })
     .then(response => {
-        alert('Pesananan Kamu Berhasil!');
+        alert('Order has been sent successfully!');
     })
     .catch(error => {
         console.error('Error sending data:', error);
-        alert('Ada Kesalahan Pada Pengisian Data.');
+        alert('There was an error submitting your order.');
     });
 }
+
 
 // Order Button Event Listener
 document.getElementById('order-btn').addEventListener('click', function() {
