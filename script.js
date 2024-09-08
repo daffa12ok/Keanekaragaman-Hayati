@@ -82,14 +82,19 @@ function sendOrderToGoogleSheets(name, email, orders, total) {
         },
         body: JSON.stringify(data)
     })
-    .then(response => {
-        alert('Pesananan Kamu Berhasil!');
-    })
-    .catch(error => {
-        console.error('Error sending data:', error);
-        alert('Ada Kesalahan Pada Pengisian Data.');
-    });
-}
+    .then(response => response.json()) // ubah ke response.json() untuk mendapatkan detail
+    .then(data => {
+        console.log(data);  // cek respons di console
+        if (data.success) {
+            alert('Pesanan Kamu Berhasil!');
+    } else {
+        alert('Ada Kesalahan Pada Pengisian Data: ' + data.message);
+    }
+})
+.catch(error => {
+    console.error('Error sending data:', error);
+    alert('Ada Kesalahan Pada Pengisian Data.');
+});
 
 // Order Button Event Listener
 document.getElementById('order-btn').addEventListener('click', function() {
