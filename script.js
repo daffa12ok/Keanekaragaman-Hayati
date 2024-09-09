@@ -1,124 +1,189 @@
-// Initialize prices (in Rupiah)
-const prices = [10000, 12000, 5000, 3000, 7000]; // Bakso, Mie Ayam, Kebab, Es Teh, Buavita
+const progressBar = document.querySelector(".progress-bar"),
+  progressText = document.querySelector(".progress-text");
 
-// Dish Elements (Array to store all quantity and total price elements)
-const quantities = [
-    document.getElementById('quantity1'),
-    document.getElementById('quantity2'),
-    document.getElementById('quantity3'),
-    document.getElementById('quantity4'),
-    document.getElementById('quantity5')
-];
+const progress = (value) => {
+  const percentage = (value / time) * 100;
+  progressBar.style.width = `${percentage}%`;
+  progressText.innerHTML = `${value}`;
+};
 
-const totalPrices = [
-    document.getElementById('totalPrice1'),
-    document.getElementById('totalPrice2'),
-    document.getElementById('totalPrice3'),
-    document.getElementById('totalPrice4'),
-    document.getElementById('totalPrice5')
-];
+const startBtn = document.querySelector(".start"),
+  numQuestions = document.querySelector("#num-questions"),
+  category = document.querySelector("#category"),
+  timePerQuestion = document.querySelector("#time"),
+  quiz = document.querySelector(".quiz"),
+  startScreen = document.querySelector(".start-screen");
 
-// Grand Total
-let grandTotal = document.getElementById('grandTotal');
-
-// Function to format number to Rupiah with commas
-function formatToRupiah(amount) {
-    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-
-// Update total price for a specific item
-function updateItemTotal(index) {
-    let quantity = parseInt(quantities[index].textContent, 10);
-    let total = quantity * prices[index];
-    totalPrices[index].textContent = formatToRupiah(total);
-
-    // Update grand total after each change
-    updateGrandTotal();
-}
-
-// Grand Total Calculation
-function updateGrandTotal() {
-    let total = 0;
-    for (let i = 0; i < totalPrices.length; i++) {
-        total += parseInt(totalPrices[i].textContent.replace(/\./g, ''), 10) || 0;
+let questions = [
+    {
+      question: "Apa itu keanekaragaman hayati?",
+      correct_answer: "Variasi makhluk hidup di Bumi",
+      incorrect_answers: ["Keanekaragaman hutan", "Keanekaragaman laut", "Keanekaragaman udara"],
+    },
+    {
+      question: "Tingkat keanekaragaman hayati yang meliputi variasi gen disebut?",
+      correct_answer: "Keanekaragaman gen",
+      incorrect_answers: ["Keanekaragaman ekosistem", "Keanekaragaman spesies", "Keanekaragaman bioma"],
+    },
+    {
+      question: "Keanekaragaman hayati terbesar di dunia terdapat di?",
+      correct_answer: "Hutan hujan tropis",
+      incorrect_answers: ["Gurun", "Kutub", "Hutan taiga"],
+    },
+    {
+      question: "Apa contoh keanekaragaman ekosistem?",
+      correct_answer: "Hutan, padang rumput, dan terumbu karang",
+      incorrect_answers: ["DNA, RNA, dan protein", "Air, tanah, dan udara", "Gunung, sungai, dan laut"],
+    },
+    {
+      question: "Penyebab utama hilangnya keanekaragaman hayati adalah?",
+      correct_answer: "Aktivitas manusia",
+      incorrect_answers: ["Perubahan iklim", "Letusan gunung berapi", "Angin topan"],
     }
-    grandTotal.textContent = formatToRupiah(total);
-}
+  ],
+  time = 30,
+  score = 0,
+  currentQuestion,
+  timer;
 
-// Attach event listeners to increase and decrease buttons
-document.querySelectorAll('.menu-item').forEach((menuItem, index) => {
-    // Increase button
-    menuItem.querySelector('.increase').addEventListener('click', function() {
-        quantities[index].textContent = parseInt(quantities[index].textContent, 10) + 1;
-        updateItemTotal(index);
-    });
+const startQuiz = () => {
+  startScreen.classList.add("hide");
+  quiz.classList.remove("hide");
+  currentQuestion = 1;
+  showQuestion(questions[0]);
+};
 
-    // Decrease button
-    menuItem.querySelector('.decrease').addEventListener('click', function() {
-        if (parseInt(quantities[index].textContent, 10) > 0) {
-            quantities[index].textContent = parseInt(quantities[index].textContent, 10) - 1;
-            updateItemTotal(index);
-        }
+startBtn.addEventListener("click", startQuiz);
+
+const showQuestion = (question) => {
+  const questionText = document.querySelector(".question"),
+    answersWrapper = document.querySelector(".answer-wrapper");
+  questionNumber = document.querySelector(".number");
+
+  questionText.innerHTML = question.question;
+
+  const answers = [
+    ...question.incorrect_answers,
+    question.correct_answer.toString(),
+  ];
+  answersWrapper.innerHTML = "";
+  answers.sort(() => Math.random() - 0.5);
+  answers.forEach((answer) => {
+    answersWrapper.innerHTML += `
+                  <div class="answer">
+            <span class="text">${answer}</span>
+            <span class="checkbox">
+              <i class="fas fa-check"></i>
+            </span>
+          </div>
+        `;
+  });
+
+  questionNumber.innerHTML = ` Soal <span class="current">${
+    questions.indexOf(question) + 1
+  }</span>
+            <span class="total">/${questions.length}</span>`;
+
+  const answersDiv = document.querySelectorAll(".answer");
+  answersDiv.forEach((answer) => {
+    answer.addEventListener("click", () => {
+      if (!answer.classList.contains("checked")) {
+        answersDiv.forEach((answer) => {
+          answer.classList.remove("selected");
+        });
+        answer.classList.add("selected");
+        submitBtn.disabled = false;
+      }
     });
+  });
+
+  time = timePerQuestion.value;
+  startTimer(time);
+};
+
+const startTimer = (time) => {
+  timer = setInterval(() => {
+    if (time >= 0) {
+      progress(time);
+      time--;
+    } else {
+      checkAnswer();
+    }
+  }, 1000);
+};
+
+const submitBtn = document.querySelector(".submit"),
+  nextBtn = document.querySelector(".next");
+
+submitBtn.addEventListener("click", () => {
+  checkAnswer();
 });
 
-// Function to send data to Google Sheets
-function sendOrderToGoogleSheets(name, email, orders, total) {
-    const url = 'https://script.google.com/macros/s/AKfycby1fz_TEHv7RzZioi0h-zxxfqZF6eVSBs7wEIdcIs5mthe86iFBmPvEo8DKEh33Y9YAFg/exec';  // Replace with your Google Web App URL
-    
-    // Create data object
-    const data = {
-        name: name,
-        email: email,
-        orders: orders,
-        total: total
-    };
-    
-    // Send the data via POST request
-    fetch(url, {
-        method: 'POST',
-        mode: 'no-cors',  // 'no-cors' to avoid CORS issues
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        alert('Order has been sent successfully!');
-    })
-    .catch(error => {
-        console.error('Error sending data:', error);
-        alert('There was an error submitting your order.');
-    });
-}
+nextBtn.addEventListener("click", () => {
+  nextQuestion();
+  submitBtn.style.display = "block";
+  nextBtn.style.display = "none";
+});
 
-
-// Order Button Event Listener
-document.getElementById('order-btn').addEventListener('click', function() {
-    // Get customer name and email
-    const customerName = document.getElementById('customerName').value;
-    const customerEmail = document.getElementById('customerEmail').value;
-
-    // Get total order price
-    const totalPrice = document.getElementById('grandTotal').textContent;
-
-    // Collect food order quantities
-    let foodOrders = [];
-    for (let i = 0; i < quantities.length; i++) {
-        if (parseInt(quantities[i].textContent, 10) > 0) {
-            foodOrders.push(`${quantities[i].textContent} x Dish ${i + 1}`);
+const checkAnswer = () => {
+  clearInterval(timer);
+  const selectedAnswer = document.querySelector(".answer.selected");
+  if (selectedAnswer) {
+    const answer = selectedAnswer.querySelector(".text").innerHTML;
+    if (answer === questions[currentQuestion - 1].correct_answer) {
+      score++;
+      selectedAnswer.classList.add("correct");
+    } else {
+      selectedAnswer.classList.add("wrong");
+      document.querySelectorAll(".answer").forEach((answer) => {
+        if (
+          answer.querySelector(".text").innerHTML ===
+          questions[currentQuestion - 1].correct_answer
+        ) {
+          answer.classList.add("correct");
         }
+      });
     }
+  } else {
+    document.querySelectorAll(".answer").forEach((answer) => {
+      if (
+        answer.querySelector(".text").innerHTML ===
+        questions[currentQuestion - 1].correct_answer
+      ) {
+        answer.classList.add("correct");
+      }
+    });
+  }
 
-    // Convert food orders array to a string
-    let foodOrderString = foodOrders.join(", ");
+  document.querySelectorAll(".answer").forEach((answer) => {
+    answer.classList.add("checked");
+  });
 
-    // Validate that the name and email are filled in
-    if (customerName === "" || customerEmail === "") {
-        alert("Tolong isi nama dan alamat email.");
-        return;
-    }
+  submitBtn.style.display = "none";
+  nextBtn.style.display = "block";
+};
 
-    // Send data to Google Sheets
-    sendOrderToGoogleSheets(customerName, customerEmail, foodOrderString, totalPrice);
+const nextQuestion = () => {
+  if (currentQuestion < questions.length) {
+    currentQuestion++;
+    showQuestion(questions[currentQuestion - 1]);
+  } else {
+    showScore();
+  }
+};
+
+const endScreen = document.querySelector(".end-screen"),
+  finalScore = document.querySelector(".final-score"),
+  totalScore = document.querySelector(".total-score");
+
+const showScore = () => {
+  endScreen.classList.remove("hide");
+  quiz.classList.add("hide");
+  finalScore.innerHTML = score;
+  totalScore.innerHTML = `/ ${questions.length}`;
+};
+
+const restartBtn = document.querySelector(".restart");
+restartBtn.addEventListener("click", () => {
+  window.location.reload();
 });
