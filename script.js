@@ -12,41 +12,50 @@ const startBtn = document.querySelector(".start"),
   category = document.querySelector("#category"),
   timePerQuestion = document.querySelector("#time"),
   quiz = document.querySelector(".quiz"),
-  startScreen = document.querySelector(".start-screen");
+  startScreen = document.querySelector(".start-screen"),
+  alertBox = document.querySelector("#alert");
 
 let questions = [
-    {
-      question: "Apa itu keanekaragaman hayati?",
-      correct_answer: "Variasi makhluk hidup di Bumi",
-      incorrect_answers: ["Keanekaragaman hutan", "Keanekaragaman laut", "Keanekaragaman udara"],
-    },
-    {
-      question: "Tingkat keanekaragaman hayati yang meliputi variasi gen disebut?",
-      correct_answer: "Keanekaragaman gen",
-      incorrect_answers: ["Keanekaragaman ekosistem", "Keanekaragaman spesies", "Keanekaragaman bioma"],
-    },
-    {
-      question: "Keanekaragaman hayati terbesar di dunia terdapat di?",
-      correct_answer: "Hutan hujan tropis",
-      incorrect_answers: ["Gurun", "Kutub", "Hutan taiga"],
-    },
-    {
-      question: "Apa contoh keanekaragaman ekosistem?",
-      correct_answer: "Hutan, padang rumput, dan terumbu karang",
-      incorrect_answers: ["DNA, RNA, dan protein", "Air, tanah, dan udara", "Gunung, sungai, dan laut"],
-    },
-    {
-      question: "Penyebab utama hilangnya keanekaragaman hayati adalah?",
-      correct_answer: "Aktivitas manusia",
-      incorrect_answers: ["Perubahan iklim", "Letusan gunung berapi", "Angin topan"],
-    }
-  ],
+  {
+    question: "Apa itu keanekaragaman hayati?",
+    correct_answer: "Variasi makhluk hidup di Bumi",
+    incorrect_answers: ["Keanekaragaman hutan", "Keanekaragaman laut", "Keanekaragaman udara"],
+  },
+  {
+    question: "Tingkat keanekaragaman hayati yang meliputi variasi gen disebut?",
+    correct_answer: "Keanekaragaman gen",
+    incorrect_answers: ["Keanekaragaman ekosistem", "Keanekaragaman spesies", "Keanekaragaman bioma"],
+  },
+  {
+    question: "Keanekaragaman hayati terbesar di dunia terdapat di?",
+    correct_answer: "Hutan hujan tropis",
+    incorrect_answers: ["Gurun", "Kutub", "Hutan taiga"],
+  },
+  {
+    question: "Apa contoh keanekaragaman ekosistem?",
+    correct_answer: "Hutan, padang rumput, dan terumbu karang",
+    incorrect_answers: ["DNA, RNA, dan protein", "Air, tanah, dan udara", "Gunung, sungai, dan laut"],
+  },
+  {
+    question: "Penyebab utama hilangnya keanekaragaman hayati adalah?",
+    correct_answer: "Aktivitas manusia",
+    incorrect_answers: ["Perubahan iklim", "Letusan gunung berapi", "Angin topan"],
+  }
+],
   time = 30,
   score = 0,
   currentQuestion,
   timer;
 
 const startQuiz = () => {
+  const nama = document.querySelector("#nama").value.trim();
+  const kelas = document.querySelector("#kelas").value.trim();
+
+  if (nama === "" || kelas === "") {
+    alert("Harap masukkan nama dan kelas Anda.");
+    return; // Menghentikan eksekusi jika input kosong
+  }
+
   startScreen.classList.add("hide");
   quiz.classList.remove("hide");
   currentQuestion = 1;
@@ -70,19 +79,18 @@ const showQuestion = (question) => {
   answers.sort(() => Math.random() - 0.5);
   answers.forEach((answer) => {
     answersWrapper.innerHTML += `
-                  <div class="answer">
-            <span class="text">${answer}</span>
-            <span class="checkbox">
-              <i class="fas fa-check"></i>
-            </span>
-          </div>
-        `;
+      <div class="answer">
+        <span class="text">${answer}</span>
+        <span class="checkbox">
+          <i class="fas fa-check"></i>
+        </span>
+      </div>
+    `;
   });
 
   questionNumber.innerHTML = ` Soal <span class="current">${
     questions.indexOf(question) + 1
-  }</span>
-            <span class="total">/${questions.length}</span>`;
+  }</span><span class="total">/${questions.length}</span>`;
 
   const answersDiv = document.querySelectorAll(".answer");
   answersDiv.forEach((answer) => {
@@ -181,9 +189,9 @@ const showScore = () => {
   quiz.classList.add("hide");
   finalScore.innerHTML = score;
   totalScore.innerHTML = `/ ${questions.length}`;
-};
 
 const restartBtn = document.querySelector(".restart");
 restartBtn.addEventListener("click", () => {
   window.location.reload();
 });
+}
