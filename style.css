@@ -199,3 +199,71 @@ select {
     border-radius: 0;
   }
 }
+
+/* Mengatur tampilan logo */
+.title-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.title-logo .logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 15px;
+}
+
+/* Mengatur teks penulis */
+.author {
+  text-align: center;
+  font-size: 1.2em;
+  font-style: italic;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Styling for the start-screen */
+.start-screen {
+  text-align: center;
+}
+
+/* Styling for input groups */
+.input-group {
+  margin-bottom: 15px;
+}
+
+/* Styling for labels */
+.input-group label {
+  display: block;
+  font-weight: normal;
+  margin-bottom: 5px;
+}
+
+/* Styling for inputs */
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Button styling */
+.btn {
+  padding: 10px 20px;
+  background-color: #0c80ef;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0a6bc5;
+}
+
+.end-screen {
+  text-align: center;
+  margin-top: 20px;
+}
+
