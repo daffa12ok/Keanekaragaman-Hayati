@@ -18,7 +18,17 @@
     <div class="container">
       <div class="start-screen">
         <h1 class="heading">Kuis Biologi</h1>
-        <div class="settings">
+        <div class="user-info">
+          <div class="input-group">
+            <label for="nama">Nama:</label>
+            <input type="text" id="nama" placeholder="Masukkan Nama Anda" required />
+          </div>
+          <div class="input-group">
+            <label for="kelas">Kelas:</label>
+            <input type="text" id="kelas" placeholder="Masukkan Kelas Anda" required />
+          </div>
+        </div>
+    <div class="settings">
           <label for="num-questions">Jumlah Soal:</label>
           <select id="num-questions">
             <option value="5">5</option>
@@ -73,7 +83,7 @@
             <span class="total-score">/5</span>
           </div>
         </div>
-        <button class="btn restart">Ulangi Kuis</button>
+        <button class="btn restart">Ulangi Soal</button>
       </div>
     </div>
 
